@@ -1,0 +1,5 @@
+Host review.lttng.org
+    User eepp
+    Port 29418
+    IdentityFile ~/.ssh/id_ed25519.gerrit
+    IdentitiesOnly yes
