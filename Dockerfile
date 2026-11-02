@@ -24,6 +24,8 @@ RUN pacman -S --needed --noconfirm \
            glib2 elfutils fmt swig python-setuptools catch2 \
            # LTTng-UST and LTTng-tools
            liburcu popt libxml2 kmod numactl jdk-openjdk \
+           # Jacques CTF
+           notcurses boost \
            # Docs
            asciidoc asciidoctor xmlto doxygen python-sphinx \
            # Python
