@@ -1,8 +1,8 @@
 #!/usr/bin/env zsh
 #
 # Runs Claude Code in a throwaway Docker container which only sees
-# `~/dev`, Claude Code's own state, and a few read-only configuration
-# files of the host home directory.
+# `~/dev`, `~/lttng-traces`, Claude Code's own state, and a few
+# read-only configuration files of the host home directory.
 #
 # Usage:
 #
@@ -77,8 +77,10 @@ bind() {
     fi
 }
 
-# Read/write: the source trees and Claude Code's state
+# Read/write: the source trees, the LTTng traces, and Claude Code's
+# state
 bind $dev_dir
+bind $HOME/lttng-traces
 bind $HOME/.claude
 bind $HOME/.claude.json
 

@@ -5,8 +5,9 @@
 </p>
 
 _**Prison Mike**_ is [Claude Code](https://claude.ai/code) in a
-throwaway Docker container which only sees `~/dev`, the state of Claude
-Code, and a few read-only config files of the host home directory.
+throwaway Docker container which only sees `~/dev`, `~/lttng-traces`,
+the state of Claude Code, and a few read-only config files of the host
+home directory.
 
 The goal is to keep what Claude Code can read and write away from the
 rest of the home directory (other SSH keys, credentials, browser
@@ -83,6 +84,7 @@ The launcher:
 Read/write:
 
 * `~/dev`
+* `~/lttng-traces`
 * `~/.claude` and `~/.claude.json` (Claude Code state)
 * If the CWD is within a subdirectory of `/tmp`: that
   first-level subdirectory (for example, `/tmp/meow` when the CWD
