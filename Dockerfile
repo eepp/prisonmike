@@ -18,8 +18,8 @@ RUN sed -i '/^NoExtract/d' /etc/pacman.conf && \
 RUN pacman -S --needed --noconfirm \
            # Build tooling
            base-devel autoconf-archive cmake meson ninja ccache bear clang lld \
-           # Debugging
-           gdb valgrind strace \
+           # Debugging/profiling
+           gdb valgrind strace perf \
            # Babeltrace
            glib2 elfutils fmt swig python-setuptools catch2 \
            # LTTng-UST and LTTng-tools
