@@ -1,17 +1,18 @@
 #!/usr/bin/env zsh
 #
 # Runs Claude Code in a throwaway Docker container which only sees
-# `~/dev`, `~/lttng-traces`, Claude Code's own state, and a few
-# read-only configuration files of the host home directory.
+# `~/dev`, `~/lttng-traces`, `~/.herdr`, Claude Code's own state, and a
+# few read-only configuration files of the host home directory.
 #
 # Usage:
 #
 #     zsh prisonmike.zsh [CLAUDE-ARGS...]
 #
-# Run it from a directory within `~/dev` or within a subdirectory of
-# `/tmp`. In the latter case, the container also sees that first-level
-# subdirectory of `/tmp` (for example, `/tmp/meow` when the current
-# directory is `/tmp/meow/mix`), but not the rest of `/tmp`.
+# Run it from a directory within `~/dev`, within `~/.herdr`, or within
+# a subdirectory of `/tmp`. In the latter case, the container also
+# sees that first-level subdirectory of `/tmp` (for example, `/tmp/meow`
+# when the current directory is `/tmp/meow/mix`), but not the rest
+# of `/tmp`.
 #
 # The container stops and is removed as soon as Claude Code exits.
 #
@@ -21,6 +22,7 @@
 setopt err_exit no_unset pipe_fail
 
 readonly dev_dir=$HOME/dev
+readonly herdr_dir=$HOME/.herdr
 readonly script_dir=${0:A:h}
 
 die() {
@@ -36,9 +38,9 @@ fi
 # Subdirectory of `/tmp` to bind, if the CWD is within one
 tmp_subdir=
 
-if [[ $PWD/ != $dev_dir/* ]]; then
+if [[ $PWD/ != $dev_dir/* && $PWD/ != $herdr_dir/* ]]; then
     if [[ $PWD != /tmp/?* ]]; then
-        die "CWD isn't within \`$dev_dir\` or within a subdirectory of \`/tmp\`"
+        die "CWD isn't within \`$dev_dir\`, within \`$herdr_dir\`, or within a subdirectory of \`/tmp\`"
     fi
 
     tmp_subdir=/tmp/${${PWD#/tmp/}%%/*}
@@ -77,10 +79,11 @@ bind() {
     fi
 }
 
-# Read/write: the source trees, the LTTng traces, and Claude Code's
-# state
+# Read/write: the source trees, the LTTng traces, the Herdr state
+# (worktrees), and Claude Code's state
 bind $dev_dir
 bind $HOME/lttng-traces
+bind $herdr_dir
 bind $HOME/.claude
 bind $HOME/.claude.json
 

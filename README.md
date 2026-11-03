@@ -6,8 +6,8 @@
 
 _**Prison Mike**_ is [Claude Code](https://claude.ai/code) in a
 throwaway Docker container which only sees `~/dev`, `~/lttng-traces`,
-the state of Claude Code, and a few read-only config files of the host
-home directory.
+`~/.herdr`, the state of Claude Code, and a few read-only config files
+of the host home directory.
 
 The goal is to keep what Claude Code can read and write away from the
 rest of the home directory (other SSH keys, credentials, browser
@@ -54,7 +54,8 @@ The image doesn't update Claude Code by itself: rebuild it (with
 
 ## Run
 
-From any directory within `~/dev` or within a subdirectory of `/tmp`:
+From any directory within `~/dev`, within `~/.herdr`, or within a
+subdirectory of `/tmp`:
 
 ```sh
 zsh /path/to/prisonmike.zsh [CLAUDE-ARGS...]
@@ -68,8 +69,8 @@ alias pm='zsh /path/to/prisonmike.zsh'
 
 The launcher:
 
-1. Checks that Docker is running and that the CWD is
-   within `~/dev` or within a subdirectory of `/tmp`.
+1. Checks that Docker is running and that the CWD is within `~/dev`,
+   within `~/.herdr`, or within a subdirectory of `/tmp`.
 
 2. Starts the clipboard server on the host.
 
@@ -85,6 +86,7 @@ Read/write:
 
 * `~/dev`
 * `~/lttng-traces`
+* `~/.herdr` (Herdr state, including its worktrees)
 * `~/.claude` and `~/.claude.json` (Claude Code state)
 * If the CWD is within a subdirectory of `/tmp`: that
   first-level subdirectory (for example, `/tmp/meow` when the CWD
@@ -99,6 +101,10 @@ Read-only:
 * `/etc/localtime`
 
 Host paths which don't exist are skipped.
+
+The container doesn't see `~/.config/herdr`: it contains the control
+socket of Herdr (which can run commands on the host), a link to the SSH
+agent socket, and the session state.
 
 ## Host requirements
 
