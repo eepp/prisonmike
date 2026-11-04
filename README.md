@@ -61,12 +61,6 @@ subdirectory of `/tmp`:
 zsh /path/to/prisonmike.zsh [CLAUDE-ARGS...]
 ```
 
-I keep
-
-```sh
-alias pm='zsh /path/to/prisonmike.zsh'
-```
-
 The launcher:
 
 1. Checks that Docker is running and that the CWD is within `~/dev`,
@@ -105,6 +99,31 @@ Host paths which don't exist are skipped.
 The container doesn't see `~/.config/herdr`: it contains the control
 socket of Herdr (which can run commands on the host), a link to the SSH
 agent socket, and the session state.
+
+### Useful Zsh stuff
+
+I keep:
+
+```sh
+alias pm='zsh /path/to/prisonmike.zsh'
+alias pm-tmp='cd "$(mktemp -d)" && pm'
+```
+
+My goal is to avoid at all cost starting Claude Code anywhere outside
+the whitelisted directories, therefore I also have:
+
+```sh
+claude() {
+  echo 'Use `pm` instead!' >&2
+  return 1
+}
+```
+
+If really needed, at your own risk:
+
+```sh
+alias the-real-claude='~/.local/bin/claude'
+```
 
 ## Host requirements
 
