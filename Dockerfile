@@ -8,8 +8,13 @@ ARG CLAUDE_CODE_VERSION=latest
 # Keep man pages, docs, and locales, which the base image strips, then
 # upgrade the whole system.
 #
+# Initialize the pacman keyring first: the base image doesn't ship one,
+# and the `archlinux-keyring` install hook needs a local secret key.
+#
 # Reinstall `glibc` to get the locale definitions back.
 RUN sed -i '/^NoExtract/d' /etc/pacman.conf && \
+    pacman-key --init && \
+    pacman-key --populate archlinux && \
     pacman -Sy --noconfirm archlinux-keyring && \
     pacman -Su --noconfirm && \
     pacman -S --noconfirm glibc
