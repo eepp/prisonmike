@@ -1,3 +1,23 @@
 #!/usr/bin/env zsh
+#
+# `xclip` replacement which sends what it copies (its standard input) to
+# the clipboard server of the host.
+#
+# Reading the clipboard (`-o`, `-out`) isn't supported: exit with status
+# 1 immediately without reading the standard input.
+#
+# On paste, Claude Code runs something like
+#
+#     xclip -selection clipboard -t TARGETS -o
+#
+# to check whether the clipboard contains an image: reading the standard
+# input would make it hang (and then copy nothing to the
+# host clipboard).
+
+for arg; do
+    if [[ $arg == -o* ]]; then
+        exit 1
+    fi
+done
 
 exec clip-client.py /run/prisonmike/clip.sock
