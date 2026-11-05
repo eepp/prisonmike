@@ -24,15 +24,74 @@ Compatible with [Herdr](https://herdr.dev/)!
 
 ## What's here
 
-| Path                  | Description                                                                                                  |
-|-----------------------|--------------------------------------------------------------------------------------------------------------|
-| `Dockerfile`          | Arch Linux image with the development packages, a user matching the host one, and Claude Code.             |
-| `prisonmike.zsh`      | Launcher to run Claude Code in a new container with the right bind mounts and then remove it.                  |
-| `clip/xclip`          | `xclip` replacement within the container which sends what it copies to the host.                            |
-| `clip/clip-client.py` | Sends its standard input to the clipboard server through a Unix socket.                                     |
-| `clip/clip-server.py` | Runs on the host to receive messages from the socket and put them in the X clipboard with the real `xclip`. |
-| `ssh/config`          | SSH configuration of the image: only `review.lttng.org`, only with the Gerrit key.                          |
-| `ssh/known_hosts`     | Public host key of `review.lttng.org`.                                                                       |
+<table>
+  <tr>
+    <th>Path</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>Dockerfile</code></td>
+    <td>
+      Arch Linux image with the development packages, a user matching
+      the host one, and Claude Code.
+    </td>
+  </tr>
+  <tr>
+    <td><code>prisonmike.zsh</code></td>
+    <td>
+      Launcher to run Claude Code in a new container with the right bind
+      mounts and then remove it.
+    </td>
+  </tr>
+  <tr>
+    <td><code>clip/xclip</code></td>
+    <td>
+      Copied to <code>/usr/local/bin/xclip</code> in the container.
+      <br><br>
+      This is an <code>xclip</code> replacement within the container
+      which sends what it copies to the host.
+      <br><br>
+      Pair this with a "copy to clipboard" skill which indicates to
+      always use <code>xclip</code> (through standard input) without
+      looking at it.
+    </td>
+  </tr>
+  <tr>
+    <td><code>clip/clip-client.py</code></td>
+    <td>
+      Copied to <code>/usr/local/bin/clip-client.py</code> in the
+      container.
+      <br><br>
+      Sends its standard input to the clipboard server through a
+      Unix socket.
+    </td>
+  </tr>
+  <tr>
+    <td><code>clip/clip-server.py</code></td>
+    <td>
+      Runs on the host (<code>prisonmike.zsh</code> spawns it) to
+      receive messages from the socket and put them in the X clipboard
+      with the host's real <code>xclip</code>.
+    </td>
+  </tr>
+  <tr>
+    <td><code>ssh/config</code></td>
+    <td>
+      Copied to <code>~/.ssh/config</code> in the container.
+      <br><br>
+      SSH configuration of the image: only
+      <code>review.lttng.org</code>, only with the Gerrit key.
+    </td>
+  </tr>
+  <tr>
+    <td><code>ssh/known_hosts</code></td>
+    <td>
+      Copied to <code>~/.ssh/known_hosts</code> in the container.
+      <br><br>
+      Public host key of <code>review.lttng.org</code>.
+    </td>
+  </tr>
+</table>
 
 ## Build the image
 
