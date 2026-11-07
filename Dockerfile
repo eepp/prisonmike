@@ -41,7 +41,7 @@ RUN pacman -S --needed --noconfirm \
            # General tools
            git openssh the_silver_searcher ripgrep fd fzf bat tig jq curl wget \
            less man-db man-pages vim procps-ng psmisc lsof which diffutils \
-           file tree kitty-terminfo inetutils && \
+           file tree kitty-terminfo inetutils reuse && \
     rm -rf /var/cache/pacman/pkg/*
 
 # Generate the locales
